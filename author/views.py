@@ -14,12 +14,12 @@ def login():
         session['next'] = request.args.get('next', None)
         
     if form.validate_on_submit():
-        authors = Author.query.filter_by(
+        author = Author.query.filter_by(
             username=form.username.data
-            ).limit(1)
-        if authors.count():
-            author = authors[0]
+            ).first()
+        if author:
             session['username'] = form.username.data
+            session['is_author'] = author.is_author
             if bcrypt.hashpw(form.password.data, author.password) ==  author.password:
                 if 'next' in session:
                     next = session.get('next')
