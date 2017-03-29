@@ -57,5 +57,9 @@ def setup():
             db.session.rollback()
             error = "Error creating blog!"
         
-    
     return render_template('blog/setup.html', form=form, error=error)
+    
+@app.route('/post')
+@login_required
+def post():
+    return 'Blog Post'
