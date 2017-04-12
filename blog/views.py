@@ -11,16 +11,19 @@ from slugify import slugify
 @app.route('/')
 @app.route('/index')
 def index():
-    blogs = Blog.query.count()
-    if blogs == 0:
+    blog = Blog.query.first()
+    if not blog:
         return redirect(url_for('setup'))
-    return('Hello World!')
+        
+    posts = Post.query.order_by(Post.publish_date.desc())
+    return render_template('blog/index.html', blog=blog, posts=posts)
     
 @app.route('/admin')
 @author_required
 def admin():
     if session.get('is_author'):
-        return render_template('blog/admin.html')
+        posts = Post.query.order_by(Post.publish_date.desc())
+        return render_template('blog/admin.html', posts=posts)
     else:
         abort(403)
 
