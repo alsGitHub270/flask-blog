@@ -58,8 +58,8 @@ def setup():
             error = "Error creating user!"
         if author.id and blog.id:
             db.session.commit()
-            flash("Blog Created!")
-            return redirect(url_for("admin"))
+            flash("Blog created")
+            return redirect(url_for("index"))
         else:
             db.session.rollback()
             error = "Error creating blog!"
